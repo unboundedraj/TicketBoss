@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const swaggerUi = require("swagger-ui-express");
@@ -21,7 +22,7 @@ app.use("/event", eventRoutes);
 // DB Connection
 const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb+srv://gaganraghav143_db_user:jY55wgPKFXCzyRIk@cluster0.za4hwhm.mongodb.net/ticketboss?retryWrites=true&w=majority");
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log("MongoDB connected successfully");
     
     // Seed event after connection is established
