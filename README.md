@@ -6,6 +6,12 @@ over-booking using atomic database operations.
 
 ---
 
+## Swagger demo Video
+
+https://screenrec.com/share/hC2PFVQIzY
+
+---
+
 ## Tech Stack
 
 - Node.js
