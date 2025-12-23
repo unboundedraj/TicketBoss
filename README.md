@@ -46,8 +46,8 @@ ticketboss/
 ### Installation
 
 ```bash
-git clone <your-repo-url>
-cd ticketboss
+git clone https://github.com/GAGANRAGHAV/TicketBoss
+cd TicketBoss
 npm install
 ```
 
