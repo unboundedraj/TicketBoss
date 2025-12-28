@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
+const path = require("path");
 
 const Event = require("./models/Event");
 const reservations = require("./routes/reservations");
@@ -12,7 +13,8 @@ const app = express();
 app.use(express.json());
 
 // Swagger
-const swaggerDocument = YAML.load("./src/swagger/openapi.yaml");
+const swaggerPath = path.join(__dirname, "swagger", "openapi.yaml");
+const swaggerDocument = YAML.load(swaggerPath);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes

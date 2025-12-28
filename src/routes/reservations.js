@@ -11,6 +11,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   const { partnerId, seats } = req.body;
 
+
   // Validation (as per spec)
   if (!seats || seats <= 0 || seats > 10) {
     return res.status(400).json({ error: "Seats must be between 1 and 10" });

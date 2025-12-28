@@ -9,6 +9,11 @@ const router = express.Router();
  */
 router.get("/", async (req, res) => {
   const event = await Event.findOne({ eventId: "node-meetup-2025" });
+  
+  if (!event) {
+    return res.status(404).json({ error: "Event not found" });
+  }
+
   const reservationCount = await Reservation.countDocuments({ status: "confirmed" });
 
   res.json({
