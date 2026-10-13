@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
 
 
   // Validation (as per spec)
-  if (!seats || seats <= 0 || seats > 10) {
+  if (!Number.isInteger(seats) || seats <= 0 || seats > 10) {
     return res.status(400).json({ error: "Seats must be between 1 and 10" });
   }
 
@@ -55,10 +55,11 @@ router.post("/", async (req, res) => {
  * DELETE /reservations/:id
  */
 router.delete("/:id", async (req, res) => {
-  const reservation = await Reservation.findOne({
-    reservationId: req.params.id,
-    status: "confirmed"
-  });
+  // Cancel atomically so concurrent requests can't restore the same seats twice
+  const reservation = await Reservation.findOneAndUpdate(
+    { reservationId: req.params.id, status: "confirmed" },
+    { $set: { status: "cancelled" } }
+  );
 
   if (!reservation) {
     return res.status(404).json({ error: "Reservation not found" });
@@ -69,10 +70,6 @@ router.delete("/:id", async (req, res) => {
     { eventId: "node-meetup-2025" },
     { $inc: { availableSeats: reservation.seats, version: 1 } }
   );
-
-  // Cancel reservation
-  reservation.status = "cancelled";
-  await reservation.save();
 
   return res.status(204).send();
 });
